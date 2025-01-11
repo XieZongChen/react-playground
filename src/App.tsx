@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useRef } from 'react';
+import { transform } from '@babel/standalone';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  function onClick() {
+    if (!textareaRef.current) {
+      return;
+    }
+
+    const res = transform(textareaRef.current.value, {
+      presets: ['react', 'typescript'],
+      filename: 'test.tsx',
+    });
+    console.log(res.code);
+  }
+
+  const code = `import { useEffect, useState } from "react";
+
+  function App() {
+    const [num, setNum] = useState(() => {
+      const num1 = 1 + 2;
+      const num2 = 2 + 3;
+      return num1 + num2
+    });
+  
+    return (
+      <div onClick={() => setNum((prevNum) => prevNum + 1)}>{num}</div>
+    );
+  }
+  
+  export default App;
+  `;
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <textarea
+        ref={textareaRef}
+        style={{ width: '500px', height: '300px' }}
+        defaultValue={code}
+      ></textarea>
+      <button onClick={onClick}>编译</button>
+    </div>
+  );
 }
 
-export default App
+export default App;
