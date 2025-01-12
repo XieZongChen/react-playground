@@ -1,4 +1,4 @@
-import logoSvg from '@/assets/logo.svg';
+import logoSvg from '@/assets/react.svg';
 
 import styles from './index.module.scss';
 
