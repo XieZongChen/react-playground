@@ -1,3 +1,12 @@
+import logoSvg from '@/assets/logo.svg';
+
 export default function Header() {
-    return <div style={{borderBottom: '1px solid #000'}}>Header</div>
+  return (
+    <div>
+      <div>
+        <img alt='logo' src={logoSvg} />
+        <span>React Playground</span>
+      </div>
+    </div>
+  );
 }
