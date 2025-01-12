@@ -1,4 +1,5 @@
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
+import { createATA } from './ata';
 
 export default function Editor() {
   const code = `export default function App() {
@@ -26,6 +27,21 @@ export default function Editor() {
       jsx: monaco.languages.typescript.JsxEmit.Preserve,
       esModuleInterop: true, // 解决默认导入和命名空间导入之间的一致性问题
     });
+
+    // 用 ts 包去分析代码，然后自动下载用到的类型包
+    const ata = createATA((code, path) => {
+      // 获取类型之后用 addExtraLib 添加到 ts 里
+      monaco.languages.typescript.typescriptDefaults.addExtraLib(
+        code,
+        `file://${path}`
+      );
+    });
+    editor.onDidChangeModelContent(() => {
+      // 内容改变之后获取一次类型
+      ata(editor.getValue());
+    });
+    // 编辑器挂载后获取一次类型
+    ata(editor.getValue());
   };
 
   return (
