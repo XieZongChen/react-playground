@@ -35,6 +35,18 @@ export default function Editor() {
       language={'typescript'}
       onMount={handleEditorMount}
       value={code}
+      options={{
+        fontSize: 14,
+        scrollBeyondLastLine: false, // 到最后一行之后是否依然可以滚动一屏
+        minimap: {
+          enabled: false, // 关闭缩略图
+        },
+        scrollbar: {
+          // 滚动条设置
+          verticalScrollbarSize: 6,
+          horizontalScrollbarSize: 6,
+        },
+      }}
     />
   );
 }
