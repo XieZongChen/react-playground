@@ -1,5 +1,6 @@
 import { transform } from '@babel/standalone';
 import type { PluginObj } from '@babel/core';
+import { Editor } from '@monaco-editor/react';
 
 function App() {
   const code1 = `
@@ -39,6 +40,7 @@ function App() {
 
   return (
     <div>
+      <Editor height="500px" defaultLanguage="javascript" defaultValue={code} />
       <button onClick={onClick}>编译</button>
     </div>
   );
