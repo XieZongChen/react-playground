@@ -1,11 +1,20 @@
-import MonacoEditor, { OnMount } from '@monaco-editor/react';
+import MonacoEditor, { EditorProps, OnMount } from '@monaco-editor/react';
 import { createATA } from './ata';
 
-export default function Editor() {
-  const code = `export default function App() {
-    return <div>xxx</div>
+export interface EditorFile {
+  name: string;
+  value: string;
+  language: string;
 }
-    `;
+
+interface MyEditorProps {
+  file: EditorFile;
+  onChange?: EditorProps['onChange'];
+  options?: EditorProps['options'];
+}
+
+export default function Editor(props: MyEditorProps) {
+  const { file, onChange, options } = props;
 
   /**
    * 编辑器挂载后的回调函数
@@ -47,10 +56,11 @@ export default function Editor() {
   return (
     <MonacoEditor
       height='100%'
-      path={'test.tsx'}
-      language={'typescript'}
+      path={file.name}
+      language={file.language}
+      value={file.value}
       onMount={handleEditorMount}
-      value={code}
+      onChange={onChange}
       options={{
         fontSize: 14,
         scrollBeyondLastLine: false, // 到最后一行之后是否依然可以滚动一屏
@@ -62,6 +72,7 @@ export default function Editor() {
           verticalScrollbarSize: 6,
           horizontalScrollbarSize: 6,
         },
+        ...options,
       }}
     />
   );
