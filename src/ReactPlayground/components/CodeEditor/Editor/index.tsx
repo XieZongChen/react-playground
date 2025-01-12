@@ -6,8 +6,17 @@ export default function Editor() {
 }
     `;
 
+  /**
+   * 编辑器挂载后的回调函数
+   */
   const handleEditorMount: OnMount = (editor, monaco) => {
-    // 挂载阶段，设置编辑器的配置
+    // 绑定编辑器的快捷键
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyJ, () => {
+      // cmd + j 格式化代码
+      editor.getAction('editor.action.formatDocument')?.run();
+    });
+
+    // 设置编辑器的语法配置
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
       /**
        * 解决无法识别 jsx 语法的问题，
