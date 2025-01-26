@@ -1,12 +1,17 @@
+import { useContext } from 'react';
+import { PlaygroundContext } from '@/ReactPlayground/PlaygroundContext';
 import Editor from './Editor';
 import FileNameList from './FileNameList';
 
 export default function CodeEditor() {
-  const file = {
-    name: 'test.tsx',
-    value: 'import lodash from "lodash";\n\nconst a = <div>test</div>',
-    language: 'typescript',
-  };
+    const { 
+        files, 
+        setFiles, 
+        selectedFileName, 
+        setSelectedFileName
+    } = useContext(PlaygroundContext)
+    
+    const file = files[selectedFileName];
 
   function onEditorChange(...args: unknown[]) {
     console.log(...args);
