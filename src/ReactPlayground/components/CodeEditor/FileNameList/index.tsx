@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { PlaygroundContext } from '../../../PlaygroundContext';
 
 export default function FileNameList() {
-  const { files, removeFile, addFile, updateFileName, selectedFileName } =
+  const { files, removeFile, addFile, updateFileName, selectedFileName, setSelectedFileName } =
     useContext(PlaygroundContext);
 
   const [tabs, setTabs] = useState(['']);
@@ -14,7 +14,7 @@ export default function FileNameList() {
   return (
     <div>
       {tabs.map((item, index) => (
-        <div>{item}</div>
+        <div key={index} onClick={() => setSelectedFileName(item)}>{item}</div>
       ))}
     </div>
   );
