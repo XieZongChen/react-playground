@@ -4,17 +4,14 @@ import Editor from './Editor';
 import FileNameList from './FileNameList';
 
 export default function CodeEditor() {
-    const { 
-        files, 
-        setFiles, 
-        selectedFileName, 
-        setSelectedFileName
-    } = useContext(PlaygroundContext)
-    
-    const file = files[selectedFileName];
+  const { files, setFiles, selectedFileName, setSelectedFileName } =
+    useContext(PlaygroundContext);
 
-  function onEditorChange(...args: unknown[]) {
-    console.log(...args);
+  const file = files[selectedFileName];
+
+  function onEditorChange(value?: string) {
+    files[file.name].value = value!;
+    setFiles({ ...files });
   }
 
   return (
