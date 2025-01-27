@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { debounce } from 'lodash-es';
 import { PlaygroundContext } from '@/ReactPlayground/PlaygroundContext';
 import Editor from './Editor';
 import FileNameList from './FileNameList';
@@ -17,7 +18,7 @@ export default function CodeEditor() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <FileNameList />
-      <Editor file={file} onChange={onEditorChange} />
+      <Editor file={file} onChange={debounce(onEditorChange, 500)} />
     </div>
   );
 }
