@@ -1,9 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
 import { PlaygroundContext } from '../../../PlaygroundContext';
 
+import { FileNameItem } from './FileNameItem';
+import styles from './index.module.scss';
+
 export default function FileNameList() {
-  const { files, removeFile, addFile, updateFileName, selectedFileName, setSelectedFileName } =
-    useContext(PlaygroundContext);
+  const {
+    files,
+    removeFile,
+    addFile,
+    updateFileName,
+    selectedFileName,
+    setSelectedFileName,
+  } = useContext(PlaygroundContext);
 
   const [tabs, setTabs] = useState(['']);
 
@@ -12,9 +21,14 @@ export default function FileNameList() {
   }, [files]);
 
   return (
-    <div>
+    <div className={styles.tabs}>
       {tabs.map((item, index) => (
-        <div key={index} onClick={() => setSelectedFileName(item)}>{item}</div>
+        <FileNameItem
+          key={item + index}
+          value={item}
+          actived={selectedFileName === item}
+          onClick={() => setSelectedFileName(item)}
+        ></FileNameItem>
       ))}
     </div>
   );
