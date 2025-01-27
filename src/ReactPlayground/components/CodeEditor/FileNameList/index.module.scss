@@ -11,6 +11,18 @@
   color: #444;
   background-color: #fff;
 
+  &::-webkit-scrollbar {
+    height: 1px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #ddd;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+  }
+
   .tab-item {
     display: inline-flex;
     padding: 8px 10px 6px;
