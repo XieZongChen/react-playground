@@ -3,14 +3,27 @@ import { File, Files } from '../../PlaygroundContext';
 import { ENTRY_FILE_NAME } from '../../files';
 import { PluginObj } from '@babel/core';
 
+export const beforeTransformCode = (filename: string, code: string) => {
+  let _code = code;
+  const regexReact = /import\s+React/g;
+  if (
+    (filename.endsWith('.jsx') || filename.endsWith('.tsx')) &&
+    !regexReact.test(code)
+  ) {
+    _code = `import React from 'react';\n${code}`;
+  }
+  return _code;
+};
+
 export const babelTransform = (
   filename: string,
   code: string,
   files: Files
 ) => {
+  const _code = beforeTransformCode(filename, code);
   let result = '';
   try {
-    result = transform(code, {
+    result = transform(_code, {
       presets: ['react', 'typescript'],
       filename,
       plugins: [customResolver(files)],
