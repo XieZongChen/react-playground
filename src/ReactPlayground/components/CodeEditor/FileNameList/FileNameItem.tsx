@@ -13,6 +13,19 @@ export const FileNameItem: React.FC<FileNameItemProps> = (props) => {
   const { value, actived = false, onClick } = props;
 
   const [name, setName] = useState(value);
+  const [editing, setEditing] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleDoubleClick = () => {
+    setEditing(true);
+    setTimeout(() => {
+      inputRef?.current?.focus();
+    }, 0);
+  };
+
+  const handleInputBlur = () => {
+    setEditing(false);
+  };
 
   return (
     <div
@@ -22,7 +35,17 @@ export const FileNameItem: React.FC<FileNameItemProps> = (props) => {
       )}
       onClick={onClick}
     >
-      <span>{name}</span>
+      {editing ? (
+        <input
+          ref={inputRef}
+          className={styles['tabs-item-input']}
+          value={name}
+          onBlur={handleInputBlur}
+          onChange={(e) => setName(e.target.value)}
+        />
+      ) : (
+        <span onDoubleClick={handleDoubleClick}>{name}</span>
+      )}
     </div>
   );
 };
