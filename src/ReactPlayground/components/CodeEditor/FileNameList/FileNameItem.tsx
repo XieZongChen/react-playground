@@ -7,10 +7,11 @@ export interface FileNameItemProps {
   value: string;
   actived: boolean;
   onClick: () => void;
+  onEditComplete: (name: string) => void;
 }
 
 export const FileNameItem: React.FC<FileNameItemProps> = (props) => {
-  const { value, actived = false, onClick } = props;
+  const { value, actived = false, onClick, onEditComplete } = props;
 
   const [name, setName] = useState(value);
   const [editing, setEditing] = useState(false);
@@ -25,6 +26,7 @@ export const FileNameItem: React.FC<FileNameItemProps> = (props) => {
 
   const handleInputBlur = () => {
     setEditing(false);
+    onEditComplete(name);
   };
 
   return (
