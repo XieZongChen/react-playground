@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
+import { ENTRY_FILE_NAME } from '@/ReactPlayground/files';
 import { PlaygroundContext } from '../../../PlaygroundContext';
-
 import { FileNameItem } from './FileNameItem';
 import styles from './index.module.scss';
 
@@ -36,6 +36,11 @@ export default function FileNameList() {
     setCreating(true);
   };
 
+  const handleRemove = (name: string) => {
+    removeFile(name);
+    setSelectedFileName(ENTRY_FILE_NAME);
+  };
+
   return (
     <div className={styles.tabs}>
       {tabs.map((item, index, arr) => (
@@ -46,6 +51,10 @@ export default function FileNameList() {
           actived={selectedFileName === item}
           onClick={() => setSelectedFileName(item)}
           onEditComplete={(name: string) => handleEditComplete(name, item)}
+          onRemove={(e) => {
+            e.stopPropagation();
+            handleRemove(item);
+          }}
         ></FileNameItem>
       ))}
       <div className={styles.add} onClick={addTab}>
