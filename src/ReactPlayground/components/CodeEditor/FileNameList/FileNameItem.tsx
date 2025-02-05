@@ -7,6 +7,7 @@ export interface FileNameItemProps {
   value: string;
   actived: boolean;
   creating: boolean;
+  readonly: boolean;
   onClick: () => void;
   onEditComplete: (name: string) => void;
   onRemove: MouseEventHandler;
@@ -17,6 +18,7 @@ export const FileNameItem: React.FC<FileNameItemProps> = (props) => {
     value,
     actived = false,
     creating,
+    readonly,
     onClick,
     onRemove,
     onEditComplete,
@@ -62,13 +64,17 @@ export const FileNameItem: React.FC<FileNameItemProps> = (props) => {
         />
       ) : (
         <>
-          <span onDoubleClick={handleDoubleClick}>{name}</span>
-          <span style={{ marginLeft: 5, display: 'flex' }} onClick={onRemove}>
-            <svg width='12' height='12' viewBox='0 0 24 24'>
-              <line stroke='#999' x1='18' y1='6' x2='6' y2='18'></line>
-              <line stroke='#999' x1='6' y1='6' x2='18' y2='18'></line>
-            </svg>
+          <span onDoubleClick={!readonly ? handleDoubleClick : () => {}}>
+            {name}
           </span>
+          {!readonly ? (
+            <span style={{ marginLeft: 5, display: 'flex' }} onClick={onRemove}>
+              <svg width='12' height='12' viewBox='0 0 24 24'>
+                <line stroke='#999' x1='18' y1='6' x2='6' y2='18'></line>
+                <line stroke='#999' x1='6' y1='6' x2='18' y2='18'></line>
+              </svg>
+            </span>
+          ) : null}
         </>
       )}
     </div>

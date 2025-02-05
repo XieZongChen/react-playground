@@ -1,8 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
-import { ENTRY_FILE_NAME } from '@/ReactPlayground/files';
+import {
+  APP_COMPONENT_FILE_NAME,
+  ENTRY_FILE_NAME,
+  IMPORT_MAP_FILE_NAME,
+} from '@/ReactPlayground/files';
 import { PlaygroundContext } from '../../../PlaygroundContext';
 import { FileNameItem } from './FileNameItem';
 import styles from './index.module.scss';
+
+const readonlyFileNames = [
+  ENTRY_FILE_NAME,
+  IMPORT_MAP_FILE_NAME,
+  APP_COMPONENT_FILE_NAME,
+];
 
 export default function FileNameList() {
   const {
@@ -47,6 +57,7 @@ export default function FileNameList() {
         <FileNameItem
           key={item + index}
           value={item}
+          readonly={readonlyFileNames.includes(item)}
           creating={creating && index === arr.length - 1}
           actived={selectedFileName === item}
           onClick={() => setSelectedFileName(item)}
