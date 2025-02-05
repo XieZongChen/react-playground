@@ -6,12 +6,13 @@ import styles from './index.module.scss';
 export interface FileNameItemProps {
   value: string;
   actived: boolean;
+  creating: boolean;
   onClick: () => void;
   onEditComplete: (name: string) => void;
 }
 
 export const FileNameItem: React.FC<FileNameItemProps> = (props) => {
-  const { value, actived = false, onClick, onEditComplete } = props;
+  const { value, actived = false, creating, onClick, onEditComplete } = props;
 
   const [name, setName] = useState(value);
   const [editing, setEditing] = useState(false);
@@ -28,6 +29,12 @@ export const FileNameItem: React.FC<FileNameItemProps> = (props) => {
     setEditing(false);
     onEditComplete(name);
   };
+
+  useEffect(() => {
+    if (creating) {
+      inputRef?.current?.focus();
+    }
+  }, [creating]);
 
   return (
     <div
