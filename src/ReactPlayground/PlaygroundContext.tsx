@@ -12,6 +12,8 @@ export interface Files {
   [key: string]: File;
 }
 
+export type Theme = 'light' | 'dark';
+
 export interface PlaygroundContext {
   files: Files; // 文件信息
   selectedFileName: string; // 当前选择的文件
