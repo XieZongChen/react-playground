@@ -62,10 +62,7 @@ export default function FileNameList() {
           actived={selectedFileName === item}
           onClick={() => setSelectedFileName(item)}
           onEditComplete={(name: string) => handleEditComplete(name, item)}
-          onRemove={(e) => {
-            e.stopPropagation();
-            handleRemove(item);
-          }}
+          onRemove={() => handleRemove(item)}
         ></FileNameItem>
       ))}
       <div className={styles.add} onClick={addTab}>
