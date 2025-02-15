@@ -6,6 +6,15 @@
     <title>Preview</title>
   </head>
   <body>
+    <script>
+      /**
+       * 使用 iframe 的页面是无法监听到 iframe 内部的报错的
+       * 所以这里需要手动监听报错事件，并将报错信息通过 window.parent.postMessage 传递给父页面
+       */
+      window.addEventListener('error', (e) => {
+        window.parent.postMessage({ type: 'ERROR', message: e.message });
+      });
+    </script>
     <script type="importmap"></script>
     <script type="module" id="appSrc"></script>
     <div id="root"></div>
