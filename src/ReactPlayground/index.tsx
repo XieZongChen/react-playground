@@ -4,6 +4,8 @@ import Header from './components/Header';
 import CodeEditor from './components/CodeEditor';
 import Preview from './components/Preview';
 
+import './index.scss';
+
 export default function ReactPlayground() {
   return (
     <div style={{ height: '100vh' }}>
