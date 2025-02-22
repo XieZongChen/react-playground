@@ -17,6 +17,8 @@ export type Theme = 'light' | 'dark';
 export interface PlaygroundContext {
   files: Files; // 文件信息
   selectedFileName: string; // 当前选择的文件
+  theme: Theme; // 主题
+  setTheme: (theme: Theme) => void;
   setSelectedFileName: (fileName: string) => void;
   setFiles: (files: Files) => void;
   addFile: (fileName: string) => void;
@@ -75,6 +77,8 @@ export const PlaygroundProvider = (props: PropsWithChildren) => {
       value={{
         files,
         selectedFileName,
+        theme,
+        setTheme,
         setSelectedFileName,
         setFiles,
         addFile,
