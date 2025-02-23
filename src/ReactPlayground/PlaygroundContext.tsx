@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useState } from 'react';
+import { createContext, PropsWithChildren, useEffect, useState } from 'react';
 import { fileName2Language } from './utils';
 import { initFiles } from './files';
 
@@ -71,6 +71,11 @@ export const PlaygroundProvider = (props: PropsWithChildren) => {
       ...newFile,
     });
   };
+
+  useEffect(() => {
+    const hash = JSON.stringify(files);
+    window.location.hash = encodeURIComponent(hash);
+  }, [files]);
 
   return (
     <PlaygroundContext.Provider
