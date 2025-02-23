@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
-import { fileName2Language } from './utils';
+import { compress, fileName2Language, uncompress } from './utils';
 import { initFiles } from './files';
 
 export interface File {
@@ -34,7 +34,7 @@ export const PlaygroundContext = createContext<PlaygroundContext>({
 const getFilesFromUrl = () => {
   let files: Files | undefined;
   try {
-    const hash = decodeURIComponent(window.location.hash.slice(1));
+    const hash = uncompress(window.location.hash.slice(1));
     files = JSON.parse(hash);
   } catch (error) {
     console.error(error);
@@ -84,8 +84,8 @@ export const PlaygroundProvider = (props: PropsWithChildren) => {
   };
 
   useEffect(() => {
-    const hash = JSON.stringify(files);
-    window.location.hash = encodeURIComponent(hash);
+    const hash = compress(JSON.stringify(files));
+    window.location.hash = hash;
   }, [files]);
 
   return (
