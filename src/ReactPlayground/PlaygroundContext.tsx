@@ -31,9 +31,20 @@ export const PlaygroundContext = createContext<PlaygroundContext>({
   selectedFileName: 'App.tsx',
 } as PlaygroundContext);
 
+const getFilesFromUrl = () => {
+  let files: Files | undefined;
+  try {
+    const hash = decodeURIComponent(window.location.hash.slice(1));
+    files = JSON.parse(hash);
+  } catch (error) {
+    console.error(error);
+  }
+  return files;
+};
+
 export const PlaygroundProvider = (props: PropsWithChildren) => {
   const { children } = props;
-  const [files, setFiles] = useState<Files>(initFiles);
+  const [files, setFiles] = useState<Files>(getFilesFromUrl() || initFiles);
   const [selectedFileName, setSelectedFileName] = useState('App.tsx');
   const [theme, setTheme] = useState<Theme>('light');
 
