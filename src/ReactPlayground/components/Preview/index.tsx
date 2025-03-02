@@ -1,11 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import { debounce } from 'lodash-es';
 import { PlaygroundContext } from '../../PlaygroundContext';
-// import Editor from '../CodeEditor/Editor';
-import CompilerWorker from './compiler.worker?worker';
-import iframeRaw from './iframe.html?raw';
 import { IMPORT_MAP_FILE_NAME } from '../../files';
 import { Message } from '../Message';
-import { debounce } from 'lodash-es';
+import CompilerWorker from './compiler.worker?worker';
+import iframeRaw from './iframe.html?raw';
 
 interface MessageData {
   data: {
@@ -17,19 +16,18 @@ interface MessageData {
 export default function Preview() {
   const { files } = useContext(PlaygroundContext);
   const [compiledCode, setCompiledCode] = useState('');
-  // const [error, setError] = useState('')
 
   const compilerWorkerRef = useRef<Worker>();
 
   useEffect(() => {
     if (!compilerWorkerRef.current) {
       compilerWorkerRef.current = new CompilerWorker();
-      compilerWorkerRef.current.addEventListener('message', (data) => {
+      compilerWorkerRef.current.addEventListener('message', ({ data }) => {
         console.log('worker', data);
         if (data.type === 'COMPILED_CODE') {
           setCompiledCode(data.data);
         } else {
-          //console.log('error', data);
+          // console.log('error', data);
         }
       });
     }
