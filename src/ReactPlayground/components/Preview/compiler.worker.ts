@@ -114,6 +114,7 @@ export const compile = (files: Files) => {
 };
 
 self.addEventListener('message', async ({ data }) => {
+  console.debug('worker received message', data);
   try {
     self.postMessage({
       type: 'COMPILED_CODE',

@@ -5,6 +5,7 @@ import CompilerWorker from './compiler.worker?worker';
 import iframeRaw from './iframe.html?raw';
 import { IMPORT_MAP_FILE_NAME } from '../../files';
 import { Message } from '../Message';
+import { debounce } from 'lodash-es';
 
 interface MessageData {
   data: {
@@ -16,6 +17,7 @@ interface MessageData {
 export default function Preview() {
   const { files } = useContext(PlaygroundContext);
   const [compiledCode, setCompiledCode] = useState('');
+  // const [error, setError] = useState('')
 
   const compilerWorkerRef = useRef<Worker>();
 
@@ -33,9 +35,12 @@ export default function Preview() {
     }
   }, []);
 
-  useEffect(() => {
-    compilerWorkerRef.current?.postMessage(files);
-  }, [files]);
+  useEffect(
+    debounce(() => {
+      compilerWorkerRef.current?.postMessage(files);
+    }, 500),
+    [files]
+  );
 
   const getIframeUrl = () => {
     const res = iframeRaw
