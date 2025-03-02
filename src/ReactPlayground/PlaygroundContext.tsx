@@ -34,7 +34,9 @@ export const PlaygroundContext = createContext<PlaygroundContext>({
 const getFilesFromUrl = () => {
   let files: Files | undefined;
   try {
-    const hash = uncompress(window.location.hash.slice(1));
+    const locationHash = window.location.hash.slice(1);
+    if(!locationHash) return undefined;
+    const hash = uncompress(locationHash);
     files = JSON.parse(hash);
   } catch (error) {
     console.error(error);
@@ -91,9 +93,9 @@ export const PlaygroundProvider = (props: PropsWithChildren) => {
   return (
     <PlaygroundContext.Provider
       value={{
+        theme,
         files,
         selectedFileName,
-        theme,
         setTheme,
         setSelectedFileName,
         setFiles,
