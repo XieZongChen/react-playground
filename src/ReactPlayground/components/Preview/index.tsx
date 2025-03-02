@@ -16,6 +16,7 @@ interface MessageData {
 export default function Preview() {
   const { files } = useContext(PlaygroundContext);
   const [compiledCode, setCompiledCode] = useState('');
+  const [error, setError] = useState('');
 
   const compilerWorkerRef = useRef<Worker>();
 
@@ -35,6 +36,7 @@ export default function Preview() {
 
   useEffect(
     debounce(() => {
+      setError('');
       compilerWorkerRef.current?.postMessage(files);
     }, 500),
     [files]
@@ -58,8 +60,6 @@ export default function Preview() {
   }, [files[IMPORT_MAP_FILE_NAME].value, compiledCode]);
 
   const [iframeUrl, setIframeUrl] = useState(getIframeUrl());
-
-  const [error, setError] = useState('');
 
   const handleMessage = (msg: MessageData) => {
     const { type, message } = msg.data;
