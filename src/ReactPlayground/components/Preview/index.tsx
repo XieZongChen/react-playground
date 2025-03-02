@@ -17,11 +17,6 @@ export default function Preview() {
   const { files } = useContext(PlaygroundContext);
   const [compiledCode, setCompiledCode] = useState('');
 
-  // useEffect(() => {
-  //   const res = compile(files);
-  //   setCompiledCode(res);
-  // }, [files]);
-
   const compilerWorkerRef = useRef<Worker>();
 
   useEffect(() => {
@@ -29,9 +24,18 @@ export default function Preview() {
       compilerWorkerRef.current = new CompilerWorker();
       compilerWorkerRef.current.addEventListener('message', (data) => {
         console.log('worker', data);
+        if (data.type === 'COMPILED_CODE') {
+          setCompiledCode(data.data);
+        } else {
+          //console.log('error', data);
+        }
       });
     }
   }, []);
+
+  useEffect(() => {
+    compilerWorkerRef.current?.postMessage(files);
+  }, [files]);
 
   const getIframeUrl = () => {
     const res = iframeRaw
