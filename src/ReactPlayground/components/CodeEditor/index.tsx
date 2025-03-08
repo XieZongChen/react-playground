@@ -5,7 +5,7 @@ import Editor from './Editor';
 import FileNameList from './FileNameList';
 
 export default function CodeEditor() {
-  const { theme, files, setFiles, selectedFileName, setSelectedFileName } =
+  const { theme, files, setFiles, selectedFileName } =
     useContext(PlaygroundContext);
 
   const file = files[selectedFileName];
